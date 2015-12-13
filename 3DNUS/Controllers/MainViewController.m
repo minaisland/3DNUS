@@ -7,8 +7,15 @@
 //
 
 #import "MainViewController.h"
+#import "FCFileManager.h"
+#import "TCBlobDownload.h"
 
-@interface MainViewController ()
+#define WORK_PATH [NSHomeDirectory() stringByAppendingPathComponent:@".3dnus"]
+#define DESKTOP_PATH [NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"]
+
+@interface MainViewController () <TCBlobDownloaderDelegate>
+
+@property (nonatomic, copy) NSString *pathToFile;
 
 @end
 
@@ -16,7 +23,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+    
+    if (![FCFileManager isDirectoryItemAtPath:WORK_PATH]) {
+        if ([FCFileManager createDirectoriesForPath:WORK_PATH]) {
+            NSLog(@"创建目录成功");
+        }
+    } else {
+        NSURL *url = [NSURL URLWithString:@"http://yls8.mtheall.com/ninupdates/titlelist.php?sys=ctr&csv=1"];
+        TCBlobDownloader *downloadTask = [[TCBlobDownloader alloc] initWithURL:url downloadPath:WORK_PATH delegate:self];
+        downloadTask.fileName = @"titlelist.csv";
+        [[TCBlobDownloadManager sharedInstance] startDownload:downloadTask];
+    }
+    
+}
+
+- (void)download:(TCBlobDownloader *)blobDownload didFinishWithSuccess:(BOOL)downloadFinished atPath:(NSString *)pathToFile
+{
+    NSError *err;
+    NSString *titlelist = [FCFileManager readFileAtPath:pathToFile error:&err];
+    if (err) {
+        NSLog(@"error: %@", err);
+    } else {
+        NSLog(@"%@", titlelist);
+    }
 }
 
 @end
