@@ -6,8 +6,6 @@
 //  Copyright © 2015年 郑先生. All rights reserved.
 //
 
-#ifndef _DNUS_Prefix_h
-#define _DNUS_Prefix_h
-
-
-#endif /* _DNUS_Prefix_h */
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
