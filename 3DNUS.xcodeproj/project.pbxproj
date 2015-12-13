@@ -17,6 +17,7 @@
 		39A35CF51C1C857F007527F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A35CF41C1C857F007527F8 /* Foundation.framework */; };
 		39A35CFA1C1C8764007527F8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A35CF91C1C8764007527F8 /* MainViewController.m */; };
 		39A35CFE1C1D34E7007527F8 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A35CFD1C1D34E7007527F8 /* FCFileManager.m */; };
+		39C054AC1C1D529F000C30C8 /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C054AB1C1D529F000C30C8 /* MainWindowController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,8 @@
 		39A35CF91C1C8764007527F8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		39A35CFC1C1D34E7007527F8 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
 		39A35CFD1C1D34E7007527F8 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
+		39C054AA1C1D529F000C30C8 /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
+		39C054AB1C1D529F000C30C8 /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +143,8 @@
 			children = (
 				39A35CF81C1C8764007527F8 /* MainViewController.h */,
 				39A35CF91C1C8764007527F8 /* MainViewController.m */,
+				39C054AA1C1D529F000C30C8 /* MainWindowController.h */,
+				39C054AB1C1D529F000C30C8 /* MainWindowController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 			files = (
 				39698E331C1D4BA1007EB85E /* FileDownloader.m in Sources */,
 				39A35CFA1C1C8764007527F8 /* MainViewController.m in Sources */,
+				39C054AC1C1D529F000C30C8 /* MainWindowController.m in Sources */,
 				39553C591C1C817B009E8506 /* main.m in Sources */,
 				39A35CF21C1C855C007527F8 /* TCBlobDownloadManager.m in Sources */,
 				39A35CF11C1C855C007527F8 /* TCBlobDownloader.m in Sources */,
