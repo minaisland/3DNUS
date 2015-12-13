@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  3DNUS-Prefix.pch
 //  3DNUS
 //
 //  Created by 郑先生 on 15/12/13.
 //  Copyright © 2015年 郑先生. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#ifndef _DNUS_Prefix_h
+#define _DNUS_Prefix_h
 
-@interface ViewController : NSViewController
 
-
-@end
-
+#endif /* _DNUS_Prefix_h */
