@@ -18,6 +18,7 @@
 		39A35CFA1C1C8764007527F8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A35CF91C1C8764007527F8 /* MainViewController.m */; };
 		39A35CFE1C1D34E7007527F8 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A35CFD1C1D34E7007527F8 /* FCFileManager.m */; };
 		39C054AC1C1D529F000C30C8 /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C054AB1C1D529F000C30C8 /* MainWindowController.m */; };
+		39C054E41C1DC07B000C30C8 /* NSString+ESAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C054D31C1DC07B000C30C8 /* NSString+ESAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,9 @@
 		39A35CFD1C1D34E7007527F8 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 		39C054AA1C1D529F000C30C8 /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
 		39C054AB1C1D529F000C30C8 /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
+		39C054B01C1DA76E000C30C8 /* Defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
+		39C054D21C1DC07B000C30C8 /* NSString+ESAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ESAdditions.h"; sourceTree = "<group>"; };
+		39C054D31C1DC07B000C30C8 /* NSString+ESAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ESAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				39698E301C1D4B93007EB85E /* Common */,
+				39C054B21C1DC01E000C30C8 /* Categories */,
 				39A35CF71C1C874C007527F8 /* Controllers */,
 				39553C541C1C817B009E8506 /* AppDelegate.h */,
 				39553C551C1C817B009E8506 /* AppDelegate.m */,
@@ -93,6 +98,7 @@
 			children = (
 				39553C621C1C817B009E8506 /* Info.plist */,
 				39553C581C1C817B009E8506 /* main.m */,
+				39C054B01C1DA76E000C30C8 /* Defines.h */,
 				39553C5D1C1C817B009E8506 /* Assets.xcassets */,
 				39A35CF61C1C8631007527F8 /* 3DNUS-Prefix.pch */,
 			);
@@ -156,6 +162,23 @@
 				39A35CFD1C1D34E7007527F8 /* FCFileManager.m */,
 			);
 			path = FCFileManager;
+			sourceTree = "<group>";
+		};
+		39C054B21C1DC01E000C30C8 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				39C054B31C1DC01E000C30C8 /* Foundation */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		39C054B31C1DC01E000C30C8 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				39C054D21C1DC07B000C30C8 /* NSString+ESAdditions.h */,
+				39C054D31C1DC07B000C30C8 /* NSString+ESAdditions.m */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +254,7 @@
 				39A35CFA1C1C8764007527F8 /* MainViewController.m in Sources */,
 				39C054AC1C1D529F000C30C8 /* MainWindowController.m in Sources */,
 				39553C591C1C817B009E8506 /* main.m in Sources */,
+				39C054E41C1DC07B000C30C8 /* NSString+ESAdditions.m in Sources */,
 				39A35CF21C1C855C007527F8 /* TCBlobDownloadManager.m in Sources */,
 				39A35CF11C1C855C007527F8 /* TCBlobDownloader.m in Sources */,
 				39A35CFE1C1D34E7007527F8 /* FCFileManager.m in Sources */,

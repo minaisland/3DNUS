@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) TCBlobDownloadManager *manager;
 @property (nonatomic, strong) NSCache *blockCache;
+@property (nonatomic, strong) NSMutableArray *array;
 
 @end
 
@@ -41,12 +42,43 @@
                    onSuccess:(CommonStringBlock)success
 {
     NSURL *url = [NSURL URLWithString:urlStr];
-    [[self sharedInstance].blockCache setObject:success forKey:url];
+    if (success) {
+        [[self sharedInstance].blockCache setObject:success forKey:url];
+    }
     TCBlobDownloader *downloadTask = [[TCBlobDownloader alloc] initWithURL:url downloadPath:downloadPath delegate:[self sharedInstance]];
     if (fileName) {
         downloadTask.fileName = fileName;
     }
     [[self sharedInstance].manager startDownload:downloadTask];
+}
+
++ (void)startDownloadWithUrlArray:(NSArray *)urlStrs
+                saveFileNameArray:(NSArray *)fileNames
+                     downloadPath:(NSString *)downloadPath
+                        onSuccess:(CommonDicBlock)success
+{
+    NSMutableDictionary *mutResultDict = [NSMutableDictionary dictionary];
+    
+    dispatch_group_t group = dispatch_group_create();
+    for (int i=0; i<urlStrs.count; i++) {
+        dispatch_group_enter(group);
+        NSString *urlStr = urlStrs[i];
+        __block typeof(urlStr) blockUrlStr = urlStr;
+        [self startDownloadWithUrlStr:urlStr saveFileName:fileNames[i] downloadPath:downloadPath onSuccess:^(NSString *pathToFile) {
+            [mutResultDict setObject:pathToFile forKey:blockUrlStr];
+            dispatch_group_leave(group);
+        }];
+    }
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        if (success) {
+            success(mutResultDict);
+        }
+    });
+}
+
+- (void)download:(TCBlobDownloader *)blobDownload didStopWithError:(NSError *)error
+{
+    
 }
 
 - (void)download:(TCBlobDownloader *)blobDownload didFinishWithSuccess:(BOOL)downloadFinished atPath:(NSString *)pathToFile

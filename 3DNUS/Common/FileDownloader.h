@@ -19,4 +19,9 @@
                    downloadPath:(NSString *)downloadPath
                       onSuccess:(CommonStringBlock)success;
 
++ (void)startDownloadWithUrlArray:(NSArray *)urlStrs
+                   saveFileNameArray:(NSArray *)fileNames
+                   downloadPath:(NSString *)downloadPath
+                      onSuccess:(CommonDicBlock)success;
+
 @end
