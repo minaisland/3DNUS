@@ -9,3 +9,5 @@
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
 #endif
+
+typedef void(^CommonStringBlock)(NSString *);

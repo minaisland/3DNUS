@@ -11,6 +11,7 @@
 		39553C591C1C817B009E8506 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39553C581C1C817B009E8506 /* main.m */; };
 		39553C5E1C1C817B009E8506 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39553C5D1C1C817B009E8506 /* Assets.xcassets */; };
 		39553C611C1C817B009E8506 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39553C5F1C1C817B009E8506 /* Main.storyboard */; };
+		39698E331C1D4BA1007EB85E /* FileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 39698E321C1D4BA1007EB85E /* FileDownloader.m */; };
 		39A35CF11C1C855C007527F8 /* TCBlobDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A35CEE1C1C855C007527F8 /* TCBlobDownloader.m */; };
 		39A35CF21C1C855C007527F8 /* TCBlobDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A35CF01C1C855C007527F8 /* TCBlobDownloadManager.m */; };
 		39A35CF51C1C857F007527F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A35CF41C1C857F007527F8 /* Foundation.framework */; };
@@ -26,6 +27,8 @@
 		39553C5D1C1C817B009E8506 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		39553C601C1C817B009E8506 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		39553C621C1C817B009E8506 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39698E311C1D4BA1007EB85E /* FileDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
+		39698E321C1D4BA1007EB85E /* FileDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloader.m; sourceTree = "<group>"; };
 		39A35CEC1C1C855C007527F8 /* TCBlobDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCBlobDownload.h; sourceTree = "<group>"; };
 		39A35CED1C1C855C007527F8 /* TCBlobDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCBlobDownloader.h; sourceTree = "<group>"; };
 		39A35CEE1C1C855C007527F8 /* TCBlobDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCBlobDownloader.m; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 		39553C531C1C817B009E8506 /* 3DNUS */ = {
 			isa = PBXGroup;
 			children = (
+				39698E301C1D4B93007EB85E /* Common */,
 				39A35CF71C1C874C007527F8 /* Controllers */,
 				39553C541C1C817B009E8506 /* AppDelegate.h */,
 				39553C551C1C817B009E8506 /* AppDelegate.m */,
@@ -99,6 +103,15 @@
 				39A35CEB1C1C855C007527F8 /* TCBlobDownload */,
 			);
 			path = Vendors;
+			sourceTree = "<group>";
+		};
+		39698E301C1D4B93007EB85E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				39698E311C1D4BA1007EB85E /* FileDownloader.h */,
+				39698E321C1D4BA1007EB85E /* FileDownloader.m */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		39A35CEB1C1C855C007527F8 /* TCBlobDownload */ = {
@@ -209,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39698E331C1D4BA1007EB85E /* FileDownloader.m in Sources */,
 				39A35CFA1C1C8764007527F8 /* MainViewController.m in Sources */,
 				39553C591C1C817B009E8506 /* main.m in Sources */,
 				39A35CF21C1C855C007527F8 /* TCBlobDownloadManager.m in Sources */,

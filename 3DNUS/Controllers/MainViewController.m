@@ -8,14 +8,17 @@
 
 #import "MainViewController.h"
 #import "FCFileManager.h"
-#import "TCBlobDownload.h"
+#import "FileDownloader.h"
 
 #define WORK_PATH [NSHomeDirectory() stringByAppendingPathComponent:@".3dnus"]
 #define DESKTOP_PATH [NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"]
 
-@interface MainViewController () <TCBlobDownloaderDelegate>
+@interface MainViewController ()
 
-@property (nonatomic, copy) NSString *pathToFile;
+@property (weak) IBOutlet NSTextField *titleIDField;
+@property (weak) IBOutlet NSTextField *versionField;
+@property (unsafe_unretained) IBOutlet NSTextView *logTextView;
+
 
 @end
 
@@ -28,24 +31,20 @@
         if ([FCFileManager createDirectoriesForPath:WORK_PATH]) {
             NSLog(@"创建目录成功");
         }
-    } else {
-        NSURL *url = [NSURL URLWithString:@"http://yls8.mtheall.com/ninupdates/titlelist.php?sys=ctr&csv=1"];
-        TCBlobDownloader *downloadTask = [[TCBlobDownloader alloc] initWithURL:url downloadPath:WORK_PATH delegate:self];
-        downloadTask.fileName = @"titlelist.csv";
-        [[TCBlobDownloadManager sharedInstance] startDownload:downloadTask];
     }
-    
 }
 
-- (void)download:(TCBlobDownloader *)blobDownload didFinishWithSuccess:(BOOL)downloadFinished atPath:(NSString *)pathToFile
+- (IBAction)downloadPress:(NSButton *)sender
 {
-    NSError *err;
-    NSString *titlelist = [FCFileManager readFileAtPath:pathToFile error:&err];
-    if (err) {
-        NSLog(@"error: %@", err);
-    } else {
-        NSLog(@"%@", titlelist);
-    }
+    [FileDownloader startDownloadWithUrlStr:@"http://yls8.mtheall.com/ninupdates/titlelist.php?sys=ctr&csv=1" saveFileName:@"titlelist.csv" downloadPath:WORK_PATH onSuccess:^(NSString *pathToFile) {
+        NSError *err;
+        NSString *titlelist = [FCFileManager readFileAtPath:pathToFile error:&err];
+        if (err) {
+            NSLog(@"error: %@", err);
+        } else {
+            [self.logTextView insertText:@"download titlelist.csv success.\n"];
+        }
+    }];
 }
 
 @end
