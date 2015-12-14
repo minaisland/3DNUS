@@ -24,6 +24,7 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
 @property (nonatomic, assign) BOOL isDownloaded;
 @property (nonatomic, copy) NSNumber *currentIndex;
 @property (nonatomic, strong) NSArray *titleArray;
+@property (weak) IBOutlet NSButton *packAsCIABtn;
 
 @end
 
@@ -126,14 +127,14 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
 
 - (void)singledownload:(NSString *)title version:(NSString *)version
 {
-    [self log:[NSString stringWithFormat:@"\r\nDownloading %@ v%@...", title, version]];
+    [self log:@"\r\nDownloading %@ v%@...", title, version];
     NSString *downloadVersionDir = [DESKTOP_PATH appendPathComponent:self.titleIDField.stringValue];
     if (![FCFileManager isDirectoryItemAtPath:downloadVersionDir]) {
         if ([FCFileManager createDirectoriesForPath:downloadVersionDir]) {
             NSLog(@"create dir: %@", downloadVersionDir);
         }
     }
-    NSString *ftmp = [downloadVersionDir appendPathComponent:@"tmp"];
+    NSString *ftmp = [WORK_PATH appendPathComponent:@"tmp"];
     NSString *downloadtmp = [NSString stringWithFormat:@"%@%@/tmd.%@", server, title, version];
     NSString *downloadcetk = [NSString stringWithFormat:@"%@%@/cetk", server, title];
     
@@ -147,9 +148,15 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
         NSLog(@"%@", data[downloadtmp]);
         NSData *tmd = [FCFileManager readFileAtPathAsData:data[downloadtmp]];
         Byte *bytes = (Byte *)[tmd bytes];
-        NSString *contentcounter = [NSString stringWithFormat:@"%x",bytes[519]&0xff];
-        [self log:[NSString stringWithFormat:@"Title has %@ contents", contentcounter]];
+        NSString *contentcounter = @"1";
+        if (tmd.length > 519) {
+            contentcounter = [NSString stringWithFormat:@"%x",bytes[519]&0xff];
+        } else {
+            NSLog(@"fail tmd download");
+        }
+        [self log:@"Title has %@ contents", contentcounter];
         
+        NSMutableArray *cids = [NSMutableArray array];
         for (int i=1; i<=contentcounter.integerValue; i++) {
             int contentoffset = 2820 + (48 * (i - 1));
             NSMutableString *contentid = [NSMutableString string];
@@ -157,19 +164,34 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
                 NSString *cid = [NSString stringWithFormat:@"%02x",bytes[j]&0xff];
                 [contentid appendString:cid];
             }
-            [FileDownloader startDownloadWithUrlStr:[NSString stringWithFormat:@"%@%@/%@", server, title, contentid] downloadPath:ftmp onSuccess:^(NSString *pathFile) {
-                
-                [FCFileManager removeItemAtPath:ftmp];
-                self.isDownloaded = NO;
-            }];
+            NSLog(@"contentid: %@", contentid);
+            [cids addObject:[[server appendPathComponent:title] appendPathComponent:contentid]];
         }
-        
+        [FileDownloader startDownloadWithUrlArray:cids downloadPath:ftmp onSuccess:^(NSDictionary *pathToFile) {
+            if (self.packAsCIABtn.state == 1) {
+                [FCFileManager removeItemsInDirectoryAtPath:ftmp];
+            } else {
+                [FCFileManager moveItemAtPath:ftmp toPath:[downloadVersionDir appendPathComponent:title]];
+            }
+            
+            [self log:@"Downloading complete"];
+            self.isDownloaded = NO;
+        } onFail:^(NSDictionary *pathToFile) {
+            [self log:@"TitleID: %@, CotentId: %@ is Not Found", title, cids];
+        }];
     }];
 }
 
-- (void)log:(NSString *)log
+- (void)log:(NSString *)log, ...
 {
-    [self.logTextView insertText:[NSString stringWithFormat:@"%@\r\n", log]];
+    NSString *str = @"";
+    if (log) {
+        va_list args;
+        va_start(args, log);
+        str = [[NSString alloc] initWithFormat:log arguments:args];
+        va_end(args);
+    }
+    [self.logTextView insertText:[str append:@"\r\n"]];
 }
 
 - (IBAction)downloadPress:(NSButton *)sender
@@ -186,7 +208,7 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
             if (err) {
                 NSLog(@"error: %@", err);
             } else {
-                [self log:@"download titlelist.csv success."];
+                [self log:@"Download titlelist.csv success."];
                 [self parseTitlelist:titlelist];
             }
         }];
