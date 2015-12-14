@@ -8,6 +8,7 @@
 
 #import "FileDownloader.h"
 #import "TCBlobDownload.h"
+#import "FCFileManager.h"
 
 @interface FileDownloader () <TCBlobDownloaderDelegate>
 
@@ -166,7 +167,9 @@
     CommonStringBlock block = [self.successBlocks objectForKey:blobDownload.downloadURL];
     if (block) {
         [self.successBlocks removeObjectForKey:blobDownload.downloadURL];
-        block(pathToFile);
+        if ([pathToFile containsString:@"csv"] || downloadFinished) {
+            block(pathToFile);
+        }
     }
 }
 

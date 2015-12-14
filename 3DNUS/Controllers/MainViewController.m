@@ -13,6 +13,7 @@
 
 #define WORK_PATH [NSHomeDirectory() stringByAppendingPathComponent:@".3dnus"]
 #define DESKTOP_PATH [NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"]
+#define RESOURCE_PATH [[NSBundle mainBundle] resourcePath]
 
 static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/";
 
@@ -45,13 +46,17 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
             NSLog(@"创建目录成功");
         }
     }
+    NSString *ftmp = [WORK_PATH appendPathComponent:@"tmp"];
+    [FCFileManager removeItemAtPath:ftmp];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"isDownloaded"]) {
         if (![change[@"new"] boolValue]) {
-            [self verifyDown];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self verifyDown];
+            });
         }
     }
 }
@@ -118,10 +123,12 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
                     version = [csv[2] replace:@"v" with:@""];
                 }
                 [self singledownload:title version:version];
+            } else {
+                self.isDownloaded = NO;
             }
         }
     } else {
-        [self verifyDown];
+        self.isDownloaded = NO;
     }
 }
 
@@ -129,6 +136,11 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
 {
     [self log:@"\r\nDownloading %@ v%@...", title, version];
     NSString *downloadVersionDir = [DESKTOP_PATH appendPathComponent:self.titleIDField.stringValue];
+    if ([FCFileManager isFileItemAtPath:[[downloadVersionDir appendPathComponent:title] appendPathExtension:@"cia"]]) {
+        [self log:@"Done."];
+        self.isDownloaded = NO;
+        return;
+    }
     if (![FCFileManager isDirectoryItemAtPath:downloadVersionDir]) {
         if ([FCFileManager createDirectoriesForPath:downloadVersionDir]) {
             NSLog(@"create dir: %@", downloadVersionDir);
@@ -168,16 +180,27 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
             [cids addObject:[[server appendPathComponent:title] appendPathComponent:contentid]];
         }
         [FileDownloader startDownloadWithUrlArray:cids downloadPath:ftmp onSuccess:^(NSDictionary *pathToFile) {
+            [self log:@"Downloading complete"];
             if (self.packAsCIABtn.state == 1) {
-                [FCFileManager removeItemsInDirectoryAtPath:ftmp];
+                [self log:@"Packing as .cia ..."];
+                NSTask *task = [[NSTask alloc] init];
+                task.launchPath = [RESOURCE_PATH appendPathComponent:@"make_cdn_cia"];
+                task.arguments = @[ftmp, [[downloadVersionDir appendPathComponent:title] appendPathExtension:@"cia"]];
+                [task launch];
+                [task waitUntilExit];
+                [self log:@"Done."];
+                
+                [FCFileManager removeItemAtPath:ftmp];
             } else {
                 [FCFileManager moveItemAtPath:ftmp toPath:[downloadVersionDir appendPathComponent:title]];
             }
             
-            [self log:@"Downloading complete"];
+            
             self.isDownloaded = NO;
         } onFail:^(NSDictionary *pathToFile) {
             [self log:@"TitleID: %@, CotentId: %@ is Not Found", title, cids];
+            
+            self.isDownloaded = NO;
         }];
     }];
 }
