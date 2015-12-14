@@ -26,6 +26,7 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
 @property (nonatomic, copy) NSNumber *currentIndex;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (weak) IBOutlet NSButton *packAsCIABtn;
+@property (weak) IBOutlet NSButton *powerBtn;
 
 @end
 
@@ -38,6 +39,11 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
     self.versionField.stringValue = @"JPN";
     self.logTextView.font = [NSFont systemFontOfSize:14];
     self.currentIndex = @1;
+    
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:self.powerBtn.title];
+    NSRange strRange = {0,[str length]};
+    [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
+    self.powerBtn.attributedTitle = str;
     
     [self addObserver:self forKeyPath:@"isDownloaded" options:NSKeyValueObservingOptionNew context:nil];
     
@@ -95,10 +101,17 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
                                           replace:@"(stage5)" with:@""]
                                          replace:@"(stage6)" with:@""]
                                         replace:@"stage7" with:@""]
-                                       replace:@"E" with:@""]
-                                      replace:@"U" with:@""]
-                                     replace:@"J" with:@""];
-            NSArray *csvfirm = [firmwaresls splitWith:@" "];
+                                       replace:@"EUR" with:@""]
+                                      replace:@"USA" with:@""]
+                                     replace:@"JPN" with:@""];
+            NSArray *csvfirmtmp = [firmwaresls splitWith:@" "];
+            NSMutableArray *csvfirm = [NSMutableArray array];
+            for (NSString *csvtmp in csvfirmtmp) {
+                NSString *csvtmptrim = [csvtmp trim];
+                if (csvtmptrim.length > 0) {
+                    [csvfirm addObject:csvtmptrim];
+                }
+            }
             NSArray *csvfu = [[csvfirm[0] replace:@"." with:@""] splitWith:@"-"];
             if ([wantedfw[1] integerValue]>=[csvfu[1] integerValue] &&
                 [wantedfw[0] integerValue] >= [csvfu[0] integerValue]) {
@@ -106,8 +119,14 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
                 for (NSString *temp in csvfirm) {
                     NSString *currentclean = temp;
                     NSArray *intcc = [[currentclean replace:@"." with:@""] splitWith:@"-"];
-                    if ([wantedfw[0] integerValue] < [intcc[0] integerValue] &&
-                        [wantedfw[1] integerValue] < [intcc[1] integerValue]) {
+                    if (intcc.count < 2) continue;
+                    NSScanner *scanner1 = [NSScanner scannerWithString:intcc[0]];
+                    NSScanner *scanner2 = [NSScanner scannerWithString:intcc[1]];
+                    int intcc1, intcc2;
+                    [scanner1 scanInt:&intcc1];
+                    [scanner2 scanInt:&intcc2];
+                    if ([wantedfw[0] integerValue] < intcc1 &&
+                        [wantedfw[1] integerValue] < intcc2) {
                         break;
                     }
                     use = currentclean;
@@ -158,8 +177,16 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
     
     [FileDownloader startDownloadWithUrlArray:@[downloadtmp, downloadcetk] saveFileNameArray:@[@"tmd", @"cetk"] downloadPath:ftmp onSuccess:^(NSDictionary *data) {
         NSLog(@"%@", data[downloadtmp]);
-        NSData *tmd = [FCFileManager readFileAtPathAsData:data[downloadtmp]];
-        Byte *bytes = (Byte *)[tmd bytes];
+        NSData *tmd = nil;
+        Byte *bytes;
+        @try {
+            tmd = [FCFileManager readFileAtPathAsData:data[downloadtmp]];
+            bytes = (Byte *)[tmd bytes];
+        }
+        @catch (NSException *exception) {
+            [self singledownload:title version:version];
+            return ;
+        }
         NSString *contentcounter = @"1";
         if (tmd.length > 519) {
             contentcounter = [NSString stringWithFormat:@"%x",bytes[519]&0xff];

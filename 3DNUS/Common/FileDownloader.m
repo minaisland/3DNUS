@@ -132,6 +132,7 @@
             dispatch_group_leave(group);
         }];
     }
+    dispatch_group_wait(group, 60*60);
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         if (mutResultDict.count > 0 && success) {
             success(mutResultDict);
