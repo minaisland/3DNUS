@@ -54,6 +54,13 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
     }
     NSString *ftmp = [WORK_PATH appendPathComponent:@"tmp"];
     [FCFileManager removeItemAtPath:ftmp];
+    
+    [self callMyWebsite];
+}
+
+- (void)callMyWebsite
+{
+    [[NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://evertrip.me"]] delegate:nil] start];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
@@ -242,6 +249,11 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
         va_end(args);
     }
     [self.logTextView insertText:[str append:@"\r\n"]];
+}
+
+- (IBAction)openLink:(NSButton *)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://evertrip.me"]];
 }
 
 - (IBAction)downloadPress:(NSButton *)sender

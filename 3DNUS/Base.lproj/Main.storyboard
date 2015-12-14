@@ -747,11 +747,14 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gxV-6w-chI">
-                                <rect key="frame" x="20" y="6" width="135" height="19"/>
+                                <rect key="frame" x="20" y="8" width="135" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Power by evertrip.me" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mBC-Uz-w6E">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="openLink:" target="XfG-lQ-9wD" id="Z1L-Ye-fPR"/>
+                                </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zHp-Yj-TCT">
                                 <rect key="frame" x="72" y="355" width="102" height="18"/>
