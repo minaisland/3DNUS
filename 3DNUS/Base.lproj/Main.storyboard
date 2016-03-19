@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1509" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -747,14 +747,11 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gxV-6w-chI">
-                                <rect key="frame" x="20" y="8" width="135" height="19"/>
-                                <buttonCell key="cell" type="roundRect" title="Power by evertrip.me" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mBC-Uz-w6E">
+                                <rect key="frame" x="20" y="8" width="112" height="19"/>
+                                <buttonCell key="cell" type="roundRect" title="Power by ground" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mBC-Uz-w6E">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="openLink:" target="XfG-lQ-9wD" id="Z1L-Ye-fPR"/>
-                                </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zHp-Yj-TCT">
                                 <rect key="frame" x="72" y="355" width="102" height="18"/>
@@ -768,7 +765,6 @@
                     <connections>
                         <outlet property="logTextView" destination="fdC-5g-RRe" id="qv2-DN-ESo"/>
                         <outlet property="packAsCIABtn" destination="zHp-Yj-TCT" id="ObA-kY-3QC"/>
-                        <outlet property="powerBtn" destination="gxV-6w-chI" id="2qP-Y9-uqs"/>
                         <outlet property="titleIDField" destination="d5j-WD-npi" id="MSO-8B-rH7"/>
                         <outlet property="versionField" destination="mhh-Ed-2Q4" id="fL0-FA-ehp"/>
                     </connections>

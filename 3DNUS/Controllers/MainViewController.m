@@ -26,7 +26,6 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
 @property (nonatomic, copy) NSNumber *currentIndex;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (weak) IBOutlet NSButton *packAsCIABtn;
-@property (weak) IBOutlet NSButton *powerBtn;
 
 @end
 
@@ -35,15 +34,10 @@ static NSString *server = @"http://nus.cdn.c.shop.nintendowifi.net/ccs/download/
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.titleIDField.stringValue = @"9.2.0-20";
-    self.versionField.stringValue = @"JPN";
+//    self.titleIDField.stringValue = @"9.2.0-20";
+//    self.versionField.stringValue = @"JPN";
     self.logTextView.font = [NSFont systemFontOfSize:14];
     self.currentIndex = @1;
-    
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:self.powerBtn.title];
-    NSRange strRange = {0,[str length]};
-    [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
-    self.powerBtn.attributedTitle = str;
     
     [self addObserver:self forKeyPath:@"isDownloaded" options:NSKeyValueObservingOptionNew context:nil];
     
